@@ -1,10 +1,11 @@
 (ns pixi.handler
   (:use compojure.core)
   (:require [compojure.handler :as handler]
-            [compojure.route :as route]))
+            [compojure.route :as route]
+            [ring.util.response :as resp]))
 
 (defroutes app-routes
-  (GET "/" [] "Hello World")
+  (GET "/" [] (resp/resource-response "index.html" {:root "public"}))
   (route/resources "/")
   (route/not-found "Not Found"))
 
