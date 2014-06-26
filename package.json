@@ -1,0 +1,22 @@
+{
+  "name": "pixicljs",
+  "version": "0.1.0",
+  "description": "Pixi.js with ClojureScript",
+  "main": "index.html",
+  "scripts": {
+    "postinstall": "./node_modules/bower/bin/bower install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dtackett/pixicljs.git"
+  },
+  "author": "Devon Tackett (frogplague@gmail.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dtackett/pixicljs/issues"
+  },
+  "homepage": "https://github.com/dtackett/pixicljs",
+  "dependencies": {
+    "bower": "^1.3.5"
+  }
+}
