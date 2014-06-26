@@ -6,12 +6,13 @@
   :source-paths ["src/clj"]
 
   :dependencies [[org.clojure/clojure "1.5.1"]
+                 [org.clojure/clojurescript "0.0-2234"]
                  [compojure "1.1.5"]]
 
   ;; lein-cljsbuild plugin to build a CLJS project
   :plugins [
   			;; cljsbuild plugin
-  			[lein-cljsbuild "0.3.2"]
+  			[lein-cljsbuild "1.0.3"]
 
   			;; ring plugin
   			[lein-ring "0.8.7"]]
@@ -34,4 +35,5 @@
                            :pretty-print true}}]}
 
   :profiles
-  {:dev {:dependencies [[ring-mock "0.1.5"]]}})
+  {:dev {:dependencies [[ring-mock "0.1.5"]]}}
+  )

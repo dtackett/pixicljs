@@ -8,6 +8,12 @@ You will need [Leiningen][1] 1.7.0 or above installed.
 
 [1]: https://github.com/technomancy/leiningen
 
+## Setup
+
+Install JavaScript dependencies with:
+
+	npm install
+
 ## Running
 
 To compile the clojurescript run:

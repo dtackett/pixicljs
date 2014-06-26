@@ -9,3 +9,7 @@ pom.xml
 .lein-failures
 .lein-plugins
 .lein-env
+.bowerrc
+resources/public/js/lib
+resources/public/js/cljs-pixi.js
+node_modules

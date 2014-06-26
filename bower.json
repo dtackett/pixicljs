@@ -1,0 +1,27 @@
+{
+  "name": "pixicljs",
+  "version": "0.1.0",
+  "homepage": "https://github.com/dtackett/pixicljs",
+  "authors": [
+    "Devon Tackett <frogplague@gmail.com>"
+  ],
+  "description": "Using ClojureScript with Pixi.js",
+  "main": "index.html",
+  "keywords": [
+    "pixi.js",
+    "clojurescript",
+    "cljs"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "pixi.js": "~1.5.3"
+  }
+}
