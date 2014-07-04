@@ -13,3 +13,4 @@ pom.xml
 resources/public/js/lib
 resources/public/js/cljs-pixi.js
 node_modules
+.nrepl-port

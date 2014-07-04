@@ -3,7 +3,7 @@
 ;; setup renderer
 (def renderer (js/PIXI.autoDetectRenderer 400 300))
 
-(.appendChild (.-body js/document) (.-view renderer))
+#_(.appendChild (.-body js/document) (.-view renderer))
 
 ;; setup stage
 (def stage (js/PIXI.Stage. 0x66ff99))
@@ -62,10 +62,20 @@
   (set! (.-position.x bunny) (+ 1 (.-position.x bunny)))
   )
 
+(def world (atom {}))
+
+(defn update-views
+  []
+  (do
+    (update-world)
+    (. renderer render stage)))
+
 ;; setup animation loop
 (defn animate[]
-  (js/requestAnimFrame animate)
-  (update-world)
-  (. renderer render stage))
+  (do
+    (update-views)
+    (js/requestAnimFrame animate)))
 
-(js/requestAnimFrame animate)
+#_(js/requestAnimFrame animate)
+
+#_(animate)
