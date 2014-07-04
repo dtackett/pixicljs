@@ -3,8 +3,9 @@
 
 (defn build-pixi-game
   "done?"
-  [view world]
-  {:view view
+  [id view world]
+  { :id id
+    :view view
     :world world})
 
 (defn build-pixi-view
@@ -26,6 +27,11 @@
 
 (declare step-game)
 (declare render-game)
+(declare run-game)
+
+(defn run-games
+  [games]
+  (doall (map run-game games)))
 
 (defn run-game
   "done?"
@@ -61,12 +67,16 @@
 
 (def my-bunny (js/PIXI.Texture.fromImage "images/bunny.png"))
 
-(def test-game (atom (build-pixi-game
-                 (build-pixi-view (.-body js/document) 400 300 0xaa6699)
-                 (build-pixi-world {1 (build-pixi-sprite {
+(def test-games (atom []))
+
+(defn simple-add-game
+  [games game]
+  (swap! games #(conj % game)))
+
+(def simple-world (build-pixi-world {1 (build-pixi-sprite {
                                                         :id 1
                                                         :texture my-bunny
-                                                        :position {:x 10 :y 10}
+                                                        :position {:x 50 :y 50}
                                                         :rotation 0
                                                         :anchor {:x 0.5 :y 0.5}
                                                         :update-fn
@@ -75,15 +85,24 @@
                                                           (assoc
                                                             e
                                                             :rotation
-                                                            (+
-                                                             0.1
-                                                             (:rotation e))))})}))))
+                                                            (-
+                                                             (:rotation e)
+                                                             0.1)))})}))
 
+(simple-add-game test-games (build-pixi-game
+                  :my-game
+                  (build-pixi-view (.-body js/document) 400 300 0xaa6699)
+                  simple-world))
+
+(simple-add-game test-games
+ (build-pixi-game :my-game-2
+                  (build-pixi-view (.-body js/document) 400 400 0xaaaa99)
+                  simple-world))
 
 ;; setup animation loop
 (defn animate[]
   (do
-    (swap! test-game run-game)
+    (swap! test-games run-games)
     (js/requestAnimFrame animate)))
 
 (animate)

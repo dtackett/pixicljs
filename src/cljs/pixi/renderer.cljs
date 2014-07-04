@@ -3,7 +3,7 @@
 
 ; Keep an atom of the current cache of entities setup on the stage
 ; This is really a shadow of what has been added to the stage
-(def render-cache (atom {}))
+(def render-cache-atom (atom {}))
 
 ; Screen size should be defined elsewhere
 (defn setup-world!
@@ -117,7 +117,7 @@
 
 ; pixi render system
 (defn render-game [game]
-  (let [cache render-cache]
+  (let [cache render-cache-atom]
     (do
       ;; Make sure the view is on the screen
       (setup-view game)
@@ -125,9 +125,13 @@
       ;; update and setup cache
       ;; cache should be related to the specific game provided
       (swap! cache (fn [cache]
-                            (->> cache
-                                 (reconsile-cache game)
-                                 (setup-render-cache game))))
+                     (let [game-cache ((:id game) cache)]
+                       (assoc cache (:id game)
+                              (->> (if (nil? game-cache)
+                                         {}
+                                         game-cache)
+                                   (reconsile-cache game)
+                                   (setup-render-cache game))))))
 
       ;; render the game
       (-> game
