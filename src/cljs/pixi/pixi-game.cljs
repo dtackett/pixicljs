@@ -28,6 +28,7 @@
 (declare step-game)
 (declare render-game)
 (declare run-game)
+(declare find-game)
 
 (defn run-games
   [games]
