@@ -37,7 +37,7 @@
      (let [id (:id entity)]
        (if-not
          (contains? render-cache id)
-         (let [sprite (js/PIXI.Sprite. (:texture entity))]
+         (let [sprite (js/PIXI.Sprite. (js/PIXI.Texture.fromImage  (:texture entity)))]
            (do
              (. stage addChild sprite)
              (assoc render-cache id sprite)))
