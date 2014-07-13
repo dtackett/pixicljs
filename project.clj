@@ -26,7 +26,11 @@
 
                 ;; Google Closure (CLS) options configuration
                 :compiler {;; CLS generated JS script filename
-                           :output-to "resources/public/js/cljs-pixi.js"
+                           :output-dir "resources/public/js/cljs"
+                           :output-to "resources/public/js/cljs/cljs-pixi.js"
+                           :source-map "resources/public/js/cljs/cljs-pixi.map.js"
+
+                           :externs ["resources/public/js/lib/pixi.js/bin/pixi.js"]
 
                            ;; minimal JS optimization directive
                            :optimizations :whitespace
