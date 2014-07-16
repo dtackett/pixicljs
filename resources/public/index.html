@@ -1,15 +1,75 @@
 <!doctype html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="utf-8">
     <title>Pixi.js with ClojureScript</title>
     <!--[if lt IE 9]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
     <script src="js/lib/pixi.js/bin/pixi.js"></script>
-</head>
-<body>
+  </head>
+  <body>
+
+    <div class="buttons">
+      <button class="new-game">New Game</button>
+      <button class="clear-all">Clear All</button>
+    </div>
+
+    <div class="cards"></div>
+
     <!-- pointing to cljsbuild generated js file -->
     <script src="js/cljs/cljs-pixi.js"></script>
-</body>
+    <script>
+      var curId = 0;
+
+      var cardsElement = document.querySelector(".cards");
+
+      var createGame = function(createFn, createTarget) {
+        var newDiv = document.createElement("div");
+        newDiv.className = "card";
+        newDiv.innerHTML = "<div class=\"card-display\"></div><button class=\"reset\">Reset</button><button class=\"pause\">Pause</button><button class=\"clone\">Clone</button><button class=\"remove\">Remove</button>";
+        cardsElement.appendChild(newDiv);
+
+        var worldName = "my-game-" + curId++;
+
+        var displayDiv = newDiv.getElementsByClassName("card-display")[0];
+        createFn(createTarget, worldName, displayDiv);
+        // pixi_cljs.pixi_game.js_add_reference_game("simple-world", worldName, displayDiv);
+
+        newDiv.getElementsByClassName("reset")[0].addEventListener('click', function() {
+          pixi_cljs.pixi_game.js_reset_game(worldName);
+        });
+
+        newDiv.getElementsByClassName("pause")[0].addEventListener('click', function() {
+          pixi_cljs.pixi_game.js_toggle_pause_game(worldName);
+        });
+
+        newDiv.getElementsByClassName("clone")[0].addEventListener('click', function() {
+          // createGame(pixi_cljs.pixi_game.js_add_reference_game, "simple-world-b");
+          createGame(pixi_cljs.pixi_game.js_clone_game, worldName);
+        });
+
+        newDiv.getElementsByClassName("remove")[0].addEventListener('click', function() {
+          pixi_cljs.pixi_game.js_remove_game(worldName);
+          cardsElement.removeChild(newDiv);
+        });
+      }
+
+      document
+       .querySelector(".buttons .new-game")
+       .addEventListener('click', function() {
+         createGame(pixi_cljs.pixi_game.js_add_reference_game, "simple-world");
+       });
+
+      document
+       .querySelector(".buttons .clear-all")
+       .addEventListener('click', function() {
+         var cards = document.querySelectorAll(".cards .card");
+
+         for (var id = 0; id < cards.length; id++) {
+           cardsElement.removeChild(cards[id]);
+         }
+       });
+    </script>
+  </body>
 </html>

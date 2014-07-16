@@ -6,7 +6,9 @@
   [id view world]
   { :id id
     :view view
-    :world world})
+    :world world
+    :origin world
+    :running true})
 
 (defn build-pixi-view
   "done?"
@@ -31,12 +33,18 @@
 (declare find-game)
 
 (defn apply-map
+  "Take all of the elements of a map, run the value through the given function and associate the result with the original key."
   [f map]
   (reduce
    #(conj {(first %2) (f (second  %2))} %1)
    {}
    map
    ))
+
+(defn apply-merge
+  "Take the value of the key in map, apply the function and associate the result under the original key."
+  [map k func]
+  (assoc map k (func (k map))))
 
 (defn run-games
   [games]
@@ -60,14 +68,16 @@
 (defn step-game
   "done?"
   [game]
-  (assoc game :world
-    (assoc
-      (:world game)
-      :entities
-      (reduce
-       #(assoc %1 (:id %2) (entity-update %2))
-       {}
-       (vals (:entities (:world game)))))))
+  (cond (:running game)
+        (assoc game :world
+               (assoc
+                   (:world game)
+                 :entities
+                 (reduce
+                  #(assoc %1 (:id %2) (entity-update %2))
+                  {}
+                  (vals (:entities (:world game))))))
+        :else game))
 
 (defn render-game
   "wip"
@@ -114,30 +124,64 @@
                                                               { :x 50
                                                                :y (+ 50 (* 30 (.sin js/Math (/ (.now js/Date) 200))))}))})}))
 
-(simple-add-game! (build-pixi-game
-                  :my-game
-                  (build-pixi-view (.-body js/document) 100 100 0xaa6699)
-                  simple-world))
+(def reference-worlds {:simple-world simple-world
+                      :simple-world-b simple-world-b})
 
-(simple-add-game! (build-pixi-game
-                  :my-other-game
-                  (build-pixi-view (.-body js/document) 100 100 0xaa66ee)
-                   simple-world-b))
-
+(defn add-reference-game!
+  [reference-id id element]
+  (simple-add-game! (build-pixi-game
+                     id
+                     (build-pixi-view element 100 100 0xaa66ee)
+                     (reference-id reference-worlds))))
 
 (defn clone-game!
-  [clone-id new-id]
+  [clone-id new-id element]
   (simple-add-game!
    (build-pixi-game
     new-id
     (build-pixi-view
-     (.-body js/document)
+     element
      100 100
      0x55aaee)
     (:world (clone-id @test-games)))))
 
+(defn toggle-pause!
+  [id]
+  (swap!
+   test-games
+   #(apply-merge
+     %
+     id
+     (fn
+       [game]
+       (assoc
+         game
+         :running
+         (not (:running game)))))))
 
-(clone-game! :my-game :my-game-clone)
+(defn reset-game!
+  [id]
+  (swap! test-games (fn [games] (apply-merge games id (fn [game] (assoc game :world (:origin game)))))))
+
+(defn js-reset-game
+  [reference-name]
+  (reset-game! (keyword reference-name)))
+
+(defn js-add-reference-game
+  [reference-name name element]
+  (add-reference-game! (keyword reference-name) (keyword name) element))
+
+(defn js-clone-game
+  [reference-name new-id element]
+  (clone-game! (keyword reference-name) (keyword new-id) element))
+
+(defn js-toggle-pause-game
+  [reference-name]
+  (toggle-pause! (keyword reference-name)))
+
+(defn js-remove-game
+  [reference-name]
+  (swap! test-games #(dissoc % (keyword reference-name))))
 
 ;; setup animation loop
 (defn animate[]
