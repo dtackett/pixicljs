@@ -7,12 +7,12 @@
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
     <script src="js/lib/pixi.js/bin/pixi.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
   </head>
   <body>
 
-    <div class="buttons">
-      <button class="new-game">New Game</button>
-      <button class="clear-all">Clear All</button>
+    <div class="controls">
+      <button class="new-game">New Game</button><button class="clear-all">Clear All</button>
     </div>
 
     <div class="cards"></div>
@@ -56,13 +56,13 @@
       }
 
       document
-       .querySelector(".buttons .new-game")
+       .querySelector(".controls .new-game")
        .addEventListener('click', function() {
          createGame(pixi_cljs.pixi_game.js_add_reference_game, "simple-world");
        });
 
       document
-       .querySelector(".buttons .clear-all")
+       .querySelector(".controls .clear-all")
        .addEventListener('click', function() {
          var cards = document.querySelectorAll(".cards .card");
 

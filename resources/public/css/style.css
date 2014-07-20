@@ -1,0 +1,75 @@
+.color-primary-0 { color: #1531AE }	/* Main Primary color */
+.color-primary-1 { color: #5A6DC2 }
+.color-primary-2 { color: #394FB3 }
+.color-primary-3 { color: #102586 }
+.color-primary-4 { color: #0A1B6A }
+
+.color-secondary-1-0 { color: #41DB00 }	/* Main Secondary color (1) */
+.color-secondary-1-1 { color: #82E459 }
+.color-secondary-1-2 { color: #65DD31 }
+.color-secondary-1-3 { color: #33A900 }
+.color-secondary-1-4 { color: #288500 }
+
+.color-secondary-2-0 { color: #BC008D }	/* Main Secondary color (2) */
+.color-secondary-2-1 { color: #CD50AE }
+.color-secondary-2-2 { color: #C02B9B }
+.color-secondary-2-3 { color: #91006D }
+.color-secondary-2-4 { color: #720056 }
+
+body {
+  background: #0F4FA8;
+}
+
+div, button {
+  box-sizing: border-box;
+}
+
+.card {
+  background: #8805A8;
+  max-width: 256px;
+  margin: 8px;
+  padding: 8px;
+  display: inline-block;
+  border: 1px solid #63027A;
+  box-shadow: 0px 0px 0px 1px #8805A8;
+}
+
+.card-display {
+  float: left;
+  border: 1px solid #9442A8;
+  line-height: 0;
+}
+
+.card > button {
+  background: #84E900;
+  border: 0px;
+  text-transform: uppercase;
+  /*border: 1px solid #000;*/
+  margin: 1px 1px 4px 8px;
+  color: #555;
+  /*box-shadow: 0px 0px 0px 1px #84E900;*/
+  padding: 0px;
+  float: right;
+  clear: right;
+  width: 64px;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.card > button:focus {
+  outline: none;
+}
+
+.controls > button {
+  background: #8805A8;
+  border: 1px solid #fff;
+  color: #fff;
+  box-shadow: 0px 0px 0px 1px #8805A8;
+  margin: 2px;
+  padding: 4px;
+  text-transform: uppercase;
+}
+
+.controls > button:focus {
+  outline: none;
+}

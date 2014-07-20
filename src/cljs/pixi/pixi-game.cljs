@@ -96,7 +96,7 @@
 (def simple-world (build-pixi-world {1 (build-pixi-sprite {
                                                         :id 1
                                                         :texture "images/bunny.png"
-                                                        :position {:x 50 :y 50}
+                                                        :position {:x 64 :y 64}
                                                         :rotation 0
                                                         :anchor {:x 0.5 :y 0.5}
                                                         :update-fn
@@ -112,7 +112,7 @@
 (def simple-world-b (build-pixi-world {1 (build-pixi-sprite {
                                                         :id 1
                                                         :texture "images/bunny.png"
-                                                        :position {:x 50 :y 50}
+                                                        :position {:x 64 :y 64}
                                                         :rotation 0
                                                         :anchor {:x 0.5 :y 0.5}
                                                         :update-fn
@@ -131,7 +131,7 @@
   [reference-id id element]
   (simple-add-game! (build-pixi-game
                      id
-                     (build-pixi-view element 100 100 0xaa66ee)
+                     (build-pixi-view element 128 128 0xaa66ee)
                      (reference-id reference-worlds))))
 
 (defn clone-game!
@@ -141,7 +141,7 @@
     new-id
     (build-pixi-view
      element
-     100 100
+     128 128
      0x55aaee)
     (:world (clone-id @test-games)))))
 
