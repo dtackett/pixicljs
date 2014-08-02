@@ -102,12 +102,25 @@
                                                         :update-fn
                                                           (fn
                                                             [e]
-                                                            (assoc
-                                                              e
-                                                              :rotation
-                                                              (-
-                                                               (:rotation e)
-                                                               0.1)))})}))
+                                                            (update-in e [:rotation] - 0.1)
+                                                            )})}))
+
+(def simple-frame (build-pixi-world {1 (build-pixi-sprite {
+                                                           :id 1                                                          
+                                                           :frame "eggHead.png"
+                                                           :position {:x 64 :y 64}
+                                                           :rotation 0
+                                                           :anchor {:x 0.5 :y 0.5}
+                                                           :scale {:x 0.5 :y 0.5}
+                                                           :update-fn
+                                                           (fn
+                                                             [e]
+                                                             (-> e 
+                                                                 (update-in [:rotation] - 0.1)
+                                                                 (assoc-in [:scale :x] (+ 0.85 (* 0.75 (.sin js/Math (/ (.now js/Date) 500)))))
+                                                                 (assoc-in [:scale :y] (:x (:scale e))))
+                                                             )})}))
+
 
 (def simple-world-b (build-pixi-world {1 (build-pixi-sprite {
                                                         :id 1
@@ -125,7 +138,8 @@
                                                                :y (+ 50 (* 30 (.sin js/Math (/ (.now js/Date) 200))))}))})}))
 
 (def reference-worlds {:simple-world simple-world
-                      :simple-world-b simple-world-b})
+                       :simple-world-b simple-world-b
+                       :simple-frame simple-frame})
 
 (defn add-reference-game!
   [reference-id id element]

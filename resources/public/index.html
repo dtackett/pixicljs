@@ -24,6 +24,17 @@
 
       var cardsElement = document.querySelector(".cards");
 
+      // create an array of assets to load
+      var assetsToLoader = [ "images/SpriteSheet.json"];
+      // create a new loader
+      loader = new PIXI.AssetLoader(assetsToLoader);
+
+      loader.onComplete = function() {
+        console.log("Assets loaded");
+      }
+
+      loader.load();
+
       var createGame = function(createFn, createTarget) {
         var newDiv = document.createElement("div");
         newDiv.className = "card";
@@ -58,7 +69,7 @@
       document
        .querySelector(".controls .new-game")
        .addEventListener('click', function() {
-         createGame(pixi_cljs.pixi_game.js_add_reference_game, "simple-world");
+         createGame(pixi_cljs.pixi_game.js_add_reference_game, "simple-frame");
        });
 
       document

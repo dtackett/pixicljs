@@ -29,6 +29,21 @@
   [entity r]
   (set! (.-rotation entity) r))
 
+(defn set-scale [sprite x y]
+  (set! (.-scale.x sprite) x)
+  (set! (.-scale.y sprite) y))
+
+(defn create-sprite
+  [entity]
+  (cond (contains? entity :texture)
+        (js/PIXI.Sprite. (js/PIXI.Texture.fromImage (:texture entity)))
+        (contains? entity :frame)
+        (js/PIXI.Sprite. (js/PIXI.Texture.fromFrame (:frame entity)))))
+
+(defn create-sprite-f
+  [entity]
+  (js/PIXI.Sprite. (js/PIXI.Texture.fromImage (:texture entity))))
+
 ; Ensure all entities in the cache still exist, if they don't remove them
 ; Pump entities through and build up the cache
 ; Give cache and entites to render system
@@ -37,9 +52,10 @@
      (let [id (:id entity)]
        (if-not
          (contains? render-cache id)
-         (let [sprite (js/PIXI.Sprite. (js/PIXI.Texture.fromImage  (:texture entity)))]
+         (let [sprite (create-sprite entity)]
            (do
              (. stage addChild sprite)
+             (set! (.-tint sprite) 0xFF00F0F)
              (assoc render-cache id sprite)))
          render-cache)))
 
@@ -48,6 +64,7 @@
   [entity render-cache]
   (let [position (:position entity)
         anchor (:anchor entity)
+        scale (:scale entity)
         sprite (get render-cache (:id entity))]
     (set-position
      sprite
@@ -57,6 +74,11 @@
      sprite
      (:x anchor)
      (:y anchor))
+    (if-not (nil? scale)
+      (set-scale
+       sprite
+       (:x scale)
+       (:y scale)))
     (set-rotation
       sprite
       (:rotation entity))
