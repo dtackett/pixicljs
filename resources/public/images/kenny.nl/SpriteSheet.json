@@ -1,0 +1,53 @@
+{
+  "frames": {
+    "alien-green-stand": {
+      "frame": {
+        "x": 441,
+        "y": 2,
+        "w": 17,
+        "h": 21
+      }
+		},
+		"alien-green-jump-up": {
+			"frame": {
+				"x": 464,
+				"y": 2,
+				"w": 16,
+				"h": 21
+			}
+		},
+		"alien-green-jump-down": {
+			"frame": {
+				"x": 486,
+				"y": 2,
+				"w": 17,
+				"h": 21
+			}
+    },
+		"alien-green-walk-0": {
+			"frame": {
+				"x": 648,
+				"y": 2,
+				"w": 17,
+				"h": 21
+			}
+		},
+		"alien-green-walk-1": {
+			"frame": {
+				"x": 671,
+				"y": 2,
+				"w": 17,
+				"h": 21
+			}
+		}
+  },
+  "meta": {
+    "image": "spritesheet.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 692,
+      "h": 692
+    },
+    "scale": "1"
+  }
+}

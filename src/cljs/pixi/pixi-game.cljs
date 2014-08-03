@@ -27,6 +27,14 @@
   [props]
   props)
 
+(defn smooth-cycle
+  [min max p]
+  (+ min (* (- max min) (.abs js/Math (.sin js/Math (/ (.now js/Date) p))))))
+
+(defn clamp-cycle
+  [min max p]
+  (.round js/Math (smooth-cycle min max p)))
+
 (declare step-game)
 (declare render-game)
 (declare run-game)
@@ -121,6 +129,22 @@
                                                                  (assoc-in [:scale :y] (:x (:scale e))))
                                                              )})}))
 
+(def anim-frame (build-pixi-world {1 (build-pixi-sprite {
+                                                           :id 1                                                          
+                                                         :frame "alien-green-stand"
+                                                         :anim-frame "alien-green-walk-0"
+                                                           :position {:x 64 :y 64}
+                                                           :rotation 0
+                                                           :anchor {:x 0.5 :y 0.5}
+                                                           :scale {:x 1.5 :y 1.5}
+                                                           :update-fn
+                                                           (fn
+                                                             [e]
+                                                             (-> e 
+                                                                 (assoc-in [:anim-frame] (str "alien-green-walk-" (clamp-cycle 0 1 100))))
+                                                             )})}))
+
+
 
 (def simple-world-b (build-pixi-world {1 (build-pixi-sprite {
                                                         :id 1
@@ -137,9 +161,12 @@
                                                               { :x 50
                                                                :y (+ 50 (* 30 (.sin js/Math (/ (.now js/Date) 200))))}))})}))
 
+
 (def reference-worlds {:simple-world simple-world
                        :simple-world-b simple-world-b
-                       :simple-frame simple-frame})
+                       :simple-frame simple-frame
+                       :anim-frame anim-frame
+                       })
 
 (defn add-reference-game!
   [reference-id id element]

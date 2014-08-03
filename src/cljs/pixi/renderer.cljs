@@ -33,6 +33,10 @@
   (set! (.-scale.x sprite) x)
   (set! (.-scale.y sprite) y))
 
+(defn set-frame [sprite frame-name]
+  #_(set!(.-setTexture sprite) (js/PIXI.Texture.fromFrame frame-name))
+  (.setTexture sprite (js/PIXI.Texture.fromFrame frame-name)))
+
 (defn create-sprite
   [entity]
   (cond (contains? entity :texture)
@@ -55,7 +59,6 @@
          (let [sprite (create-sprite entity)]
            (do
              (. stage addChild sprite)
-             (set! (.-tint sprite) 0xFF00F0F)
              (assoc render-cache id sprite)))
          render-cache)))
 
@@ -65,6 +68,7 @@
   (let [position (:position entity)
         anchor (:anchor entity)
         scale (:scale entity)
+        frame-name (:anim-frame entity)
         sprite (get render-cache (:id entity))]
     (set-position
      sprite
@@ -79,6 +83,8 @@
        sprite
        (:x scale)
        (:y scale)))
+    (if-not (nil? frame-name)
+      (set-frame sprite frame-name))
     (set-rotation
       sprite
       (:rotation entity))

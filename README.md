@@ -31,4 +31,6 @@ To start a web server for the application, run:
 
 ## License
 
-Copyright © 2013 Devon Tackett
+Some image assets are from kenney.nl
+
+Copyright © 2014 Devon Tackett
