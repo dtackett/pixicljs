@@ -12,7 +12,11 @@
   <body>
 
     <div class="controls">
-      <button class="new-game">New Game</button><button class="clear-all">Clear All</button>
+      <button class="build-world" data-world="simple-world">Simple</button>
+      <button class="build-world" data-world="simple-world-b">Simple (alt)</button>
+      <button class="build-world" data-world="simple-frame">Simple Frame</button>
+      <button class="build-world" data-world="anim-frame">Anim Frame</button>
+      <button class="clear-all">Clear All</button>
     </div>
 
     <div class="cards"></div>
@@ -66,11 +70,16 @@
         });
       }
 
-      document
-       .querySelector(".controls .new-game")
-       .addEventListener('click', function() {
-         createGame(pixi_cljs.pixi_game.js_add_reference_game, "anim-frame");
-       });
+      var buildNewWorld = function() {
+        createGame(pixi_cljs.pixi_game.js_add_reference_game, this.getAttribute('data-world'));
+      }
+
+      var createButtons = document
+       .querySelectorAll(".controls .build-world");
+
+      for (var i = createButtons.length -1; i >= 0; i--) {
+        createButtons[i].addEventListener('click', buildNewWorld);
+      };
 
       document
        .querySelector(".controls .clear-all")
