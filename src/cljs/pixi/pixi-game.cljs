@@ -102,8 +102,9 @@
   (partial add-game! test-games))
 
 (def simple-world (build-pixi-world {1 (build-pixi-sprite {
-                                                        :id 1
-                                                        :texture "images/bunny.png"
+                                                           :id 1
+                                                           :sprite :true
+                                                        :image "images/bunny.png"
                                                         :position {:x 64 :y 64}
                                                         :rotation 0
                                                         :anchor {:x 0.5 :y 0.5}
@@ -114,7 +115,8 @@
                                                             )})}))
 
 (def simple-frame (build-pixi-world {1 (build-pixi-sprite {
-                                                           :id 1                                                          
+                                                           :id 1
+                                                           :sprite :true
                                                            :frame "eggHead.png"
                                                            :position {:x 64 :y 64}
                                                            :rotation 0
@@ -130,7 +132,8 @@
                                                              )})}))
 
 (def anim-frame (build-pixi-world {1 (build-pixi-sprite {
-                                                           :id 1                                                          
+                                                         :id 1
+                                                         :sprite :true
                                                          :frame "alien-green-stand"
                                                          :anim-frame "alien-green-walk-0"
                                                            :position {:x 64 :y 64}
@@ -141,14 +144,15 @@
                                                            (fn
                                                              [e]
                                                              (-> e 
-                                                                 (assoc-in [:anim-frame] (str "alien-green-walk-" (clamp-cycle 0 1 100))))
+                                                                 (assoc-in [:anim-frame] (str "alien-green-walk-" (clamp-cycle 0 1 400))))
                                                              )})}))
 
 
 
 (def simple-world-b (build-pixi-world {1 (build-pixi-sprite {
-                                                        :id 1
-                                                        :texture "images/bunny.png"
+                                                             :id 1
+                                                             :sprite :true
+                                                        :image "images/bunny.png"
                                                         :position {:x 64 :y 64}
                                                         :rotation 0
                                                         :anchor {:x 0.5 :y 0.5}
@@ -161,11 +165,31 @@
                                                               { :x 50
                                                                :y (+ 50 (* 30 (.sin js/Math (/ (.now js/Date) 200))))}))})}))
 
+(def tile-world (build-pixi-world {1 (build-pixi-sprite {
+                                                           :id 1
+                                                           :tile :true
+                                                         :frame "dirt-center"
+                                                         :tile-size {:w 256, :h 256}
+                                                           :rotation 0
+                                                         :anchor {:x 0.5 :y 0.5}
+                                                         :tile-scale {:x 2 :y 2}
+                                                         :tile-position {:x 10 :y 12}
+                                                         :update-fn
+                                                         (fn
+                                                           [e]
+                                                           (-> e
+                                                               #_(update-in [:tile-position :x] + 1)
+                                                               #_(update-in [:tile-position :y] + 1)
+                                                               (assoc-in [:tile-scale :x] (smooth-cycle 1 2 2000))
+                                                               (assoc-in [:tile-scale :y] (smooth-cycle 1 2 2000))
+                                                               ))})}))
+
 
 (def reference-worlds {:simple-world simple-world
                        :simple-world-b simple-world-b
                        :simple-frame simple-frame
                        :anim-frame anim-frame
+                       :tile-world tile-world
                        })
 
 (defn add-reference-game!

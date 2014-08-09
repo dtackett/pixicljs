@@ -33,20 +33,31 @@
   (set! (.-scale.x sprite) x)
   (set! (.-scale.y sprite) y))
 
+(defn set-tile-scale [sprite x y]
+  (set! (.-tileScale.x sprite) x)
+  (set! (.-tileScale.y sprite) y))
+
+(defn set-tile-position [sprite x y]
+  (set! (.-tilePosition.x sprite) x)
+  (set! (.-tilePosition.y sprite) y))
+
+(defn get-texture [entity]
+  (cond (contains? entity :image)
+        (js/PIXI.Texture.fromImage (:image entity))
+        (contains? entity :frame)
+        (js/PIXI.Texture.fromFrame (:frame entity))))
+
 (defn set-frame [sprite frame-name]
-  #_(set!(.-setTexture sprite) (js/PIXI.Texture.fromFrame frame-name))
   (.setTexture sprite (js/PIXI.Texture.fromFrame frame-name)))
 
 (defn create-sprite
   [entity]
-  (cond (contains? entity :texture)
-        (js/PIXI.Sprite. (js/PIXI.Texture.fromImage (:texture entity)))
-        (contains? entity :frame)
-        (js/PIXI.Sprite. (js/PIXI.Texture.fromFrame (:frame entity)))))
-
-(defn create-sprite-f
-  [entity]
-  (js/PIXI.Sprite. (js/PIXI.Texture.fromImage (:texture entity))))
+  (cond (contains? entity :sprite)
+        (js/PIXI.Sprite. (get-texture entity))
+        (contains? entity :tile)
+        (js/PIXI.TilingSprite. (get-texture entity)
+                               (get-in entity [:tile-size :w])
+                               (get-in entity [:tile-size :h]))))
 
 ; Ensure all entities in the cache still exist, if they don't remove them
 ; Pump entities through and build up the cache
@@ -69,6 +80,8 @@
         anchor (:anchor entity)
         scale (:scale entity)
         frame-name (:anim-frame entity)
+        tile-scale (:tile-scale entity)
+        tile-position (:tile-position entity)
         sprite (get render-cache (:id entity))]
     (set-position
      sprite
@@ -85,6 +98,14 @@
        (:y scale)))
     (if-not (nil? frame-name)
       (set-frame sprite frame-name))
+    (if-not (nil? tile-scale)
+      (set-tile-scale sprite
+                      (:x tile-scale)
+                      (:y tile-scale)))
+    (if-not (nil? tile-position)
+      (set-tile-position sprite
+                         (:x tile-position)
+                         (:y tile-position)))
     (set-rotation
       sprite
       (:rotation entity))
